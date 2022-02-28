@@ -14,7 +14,7 @@ import javax.validation.Valid;
 @Table(name="member")
 @Getter @Setter
 @ToString
-public class Member {
+public class Member extends BaseEntity{
     @Id
     @Column(name="member_id")
     @GeneratedValue(strategy = GenerationType.AUTO)

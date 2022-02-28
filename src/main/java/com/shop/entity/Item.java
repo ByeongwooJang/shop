@@ -1,6 +1,7 @@
 package com.shop.entity;
 
 import com.shop.constant.ItemSellStatus;
+import com.shop.dto.ItemFormDto;
 import lombok.Generated;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,34 +13,37 @@ import java.time.LocalDateTime;
 //Item 클래스를 Entity로 선언, @Table 어노테이션을 통해 어떤 테이블과 매핑될지 지정
 @Entity
 @Table(name="item")
-
 @Getter
 @Setter
 @ToString
-public class Item {
+public class Item extends BaseEntity{
 
-    @Id //Entity로 선언한 클래스는 반드시 기본키를 가져야한다. -> @Id 어노테이션 사용
-    @Column(name="item_id") //매핑 될 Cloumn 정보 설정
-    @GeneratedValue(strategy= GenerationType.AUTO) // 기본키 생성 전략
-    private Long id;
+    @Id
+    @Column(name="item_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;       //상품 코드
 
     @Column(nullable = false, length = 50)
-    private String itemNm;
+    private String itemNm; //상품명
 
     @Column(name="price", nullable = false)
-    private int price;
+    private int price; //가격
 
     @Column(nullable = false)
-    private int stockNumber;
+    private int stockNumber; //재고수량
 
     @Lob
     @Column(nullable = false)
-    private String itemDetail;
+    private String itemDetail; //상품 상세 설명
 
     @Enumerated(EnumType.STRING)
-    private ItemSellStatus itemSellStatus;
+    private ItemSellStatus itemSellStatus; //상품 판매 상태
 
-    private LocalDateTime regTime;
-
-    private LocalDateTime updateTime;
+    public void updateItem(ItemFormDto itemFormDto){
+        this.itemNm = itemFormDto.getItemNm();
+        this.price = itemFormDto.getPrice();
+        this.stockNumber = itemFormDto.getStockNumber();
+        this.itemDetail = itemFormDto.getItemDetail();
+        this.itemSellStatus = itemFormDto.getItemSellStatus();
+    }
 }
